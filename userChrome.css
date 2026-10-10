@@ -1,0 +1,314 @@
+/* ========================================================= */
+/*                    BOTTOM TOOLBAR                         */
+/* ========================================================= */
+
+/*
+ * Move the entire Firefox toolbar/toolbox to the bottom.
+ * This also works when the window is not maximized.
+ */
+#main-window > body {
+    flex-direction: column-reverse !important;
+}
+
+
+/* ========================================================= */
+/*                    NAVIGATOR TOOLBOX                      */
+/* ========================================================= */
+
+#navigator-toolbox {
+    z-index: 10 !important;
+
+    /* Separator between webpage and toolbar */
+    border-top: 1px solid var(--chrome-content-separator-color) !important;
+    border-bottom: none !important;
+
+    /*
+     * Keep the internal toolbar elements in a vertical stack:
+     *
+     *   URL BAR
+     *   TABS
+     *   BOOKMARKS
+     */
+    display: flex !important;
+    flex-direction: column !important;
+
+    /*
+     * NOTE: `overflow: visible` is no longer needed here. Since
+     * Firefox 157 the URL-bar suggestions are a `popover`, which is
+     * rendered in the top layer and therefore never clipped by the
+     * toolbox.
+     */
+}
+
+
+/* Fullscreen
+ *
+ * NOTE: `inFullscreen` is set on #main-window (the root element),
+ * not on #navigator-toolbox, so the toolbox has to be selected as a
+ * descendant of the fullscreen window.
+ */
+#main-window[inFullscreen] #navigator-toolbox {
+    margin-top: 0 !important;
+}
+
+
+/* Keep the actual browser content underneath the toolbar */
+#browser {
+    z-index: 0 !important;
+}
+
+
+/* ========================================================= */
+/*                    TOOLBAR ORDER                          */
+/* ========================================================= */
+
+/*
+ * 1. Address bar
+ */
+#nav-bar {
+    order: 1 !important;
+
+    border-top: none !important;
+    box-shadow: none !important;
+
+    padding-top: 4px !important;
+}
+
+
+/*
+ * 2. Tabs
+ *
+ * NOTE: Firefox no longer wraps the tabs in a `#titlebar` element.
+ * The tabs toolbar (`#TabsToolbar`) is now a direct child of
+ * `#navigator-toolbox`. The old `#titlebar` selector matched
+ * nothing, which is why the tabs ended up ABOVE the address bar.
+ */
+#TabsToolbar {
+    order: 2 !important;
+}
+
+
+/*
+ * 3. Bookmarks toolbar
+ *
+ * If you don't use the bookmarks toolbar, this simply
+ * has no visible effect.
+ */
+#PersonalToolbar {
+    order: 3 !important;
+}
+
+
+/* ========================================================= */
+/*                    URL BAR                                */
+/* ========================================================= */
+
+/*
+ * Keep the URL bar above the other toolbar elements
+ * so its suggestion popup can appear correctly.
+ */
+#urlbar {
+    position: relative !important;
+    z-index: 100 !important;
+}
+
+
+/*
+ * NOTE: The old `#urlbar-container { overflow: visible }` rule is
+ * gone. The suggestion view is a top-layer popover, so it is never
+ * clipped by the container.
+ */
+
+
+/* ========================================================= */
+/*                 URL SUGGESTION POPUP                      */
+/* ========================================================= */
+
+/*
+ * IMPORTANT:
+ *
+ * Do NOT set:
+ *
+ *     .urlbarView {
+ *         display: none;
+ *     }
+ *
+ * Firefox handles opening/closing this popup itself.
+ */
+
+
+/*
+ * Put the suggestion popup ABOVE the URL bar.
+ *
+ * Firefox 157 no longer positions this popup with `bottom: 100%`.
+ * The view is a `popover` (rendered in the top layer) positioned
+ * with CSS Anchor Positioning:
+ *
+ *     .urlbarView:popover-open {
+ *         position: fixed;
+ *         position-anchor: --urlbar-anchor;
+ *         position-area: block-end center;   (opens BELOW)
+ *     }
+ *
+ * `block-end` means "below the anchor", which is off-screen for a
+ * toolbar pinned to the bottom of the window. The mirror value
+ * `block-start` puts the popup above the bar instead.
+ *
+ * We keep the width governed by the anchor area
+ * (`inset-inline: 0` + `justify-self: stretch`), which replaces the
+ * old `position: absolute; width: 100%` hack. `z-index` is useless
+ * here because top-layer elements ignore it.
+ */
+#urlbar[open] > .urlbarView {
+    position-area: block-start center !important;
+    inset-inline: 0 !important;
+    justify-self: stretch !important;
+
+    /* Text color for the popup; individual rows override this. */
+    color: #fbfbfe !important;
+}
+
+
+/*
+ * Dark background matching Firefox's dark UI.
+ *
+ * The visible panel is no longer painted by `.urlbarView` itself. It
+ * is painted by the child `.urlbarView-background`, which uses the
+ * `--urlbar-background-*` design tokens and is designed to visually
+ * merge with the address bar. So the colors go on that child now.
+ */
+#urlbar[open] > .urlbarView > .urlbarView-background {
+    background-color: #2b2a33 !important;
+
+    /* Separator around the popup. */
+    border-color: #52525e !important;
+
+    /* Shadow points upward because the popup is above the URL bar. */
+    box-shadow: 0 -5px 12px rgba(0, 0, 0, 0.35) !important;
+}
+
+
+/* ========================================================= */
+/*              URL SUGGESTION ROWS                         */
+/* ========================================================= */
+
+/*
+ * Normal suggestion
+ */
+#urlbar[open] .urlbarView-row {
+    background-color: #2b2a33 !important;
+    color: #fbfbfe !important;
+}
+
+
+/*
+ * Hovered suggestion
+ */
+#urlbar[open] .urlbarView-row:hover {
+    background-color: #45404f !important;
+    color: #ffffff !important;
+}
+
+
+/*
+ * Currently selected suggestion
+ */
+#urlbar[open] .urlbarView-row[selected] {
+    background-color: #51456b !important;
+    color: #ffffff !important;
+}
+
+
+/* ========================================================= */
+/*              URL SUGGESTION TEXT                         */
+/* ========================================================= */
+
+/*
+ * Main suggestion/title text
+ */
+#urlbar[open] .urlbarView-title {
+    color: #fbfbfe !important;
+}
+
+
+/*
+ * URL/domain text
+ */
+#urlbar[open] .urlbarView-url {
+    color: #b8b5c5 !important;
+}
+
+
+/*
+ * Search suggestion text and secondary text
+ */
+/*
+ * NOTE: `.urlbarView-no-wrap` no longer exists in the Nova URL bar.
+ * It was renamed to `.urlbarView-row-body-top-no-wrap`.
+ */
+#urlbar[open] .urlbarView-row-inner,
+#urlbar[open] .urlbarView-row-body-top-no-wrap {
+    color: #fbfbfe !important;
+}
+
+
+/* ========================================================= */
+/*              URL BAR RESULTS CONTAINER                   */
+/* ========================================================= */
+
+/*
+ * Firefox has several nested containers inside the
+ * suggestion popup. Keep them transparent so the dark
+ * popup background is used consistently.
+ */
+#urlbar[open] .urlbarView-body-inner,
+#urlbar[open] .urlbarView-results {
+    background: transparent !important;
+}
+
+
+/* ========================================================= */
+/*                    POPUPS / MENUS                         */
+/* ========================================================= */
+
+/*
+ * Allow Firefox's normal popup positioning to work.
+ *
+ * NOTE: The `overflow: visible` overrides that used to live here are
+ * gone. Menus and the URL-bar suggestions now use the top layer, so
+ * they are no longer clipped by the toolbox or the nav bar.
+ */
+
+
+/* ========================================================= */
+/*              WINDOW CONTROLS                             */
+/* ========================================================= */
+
+/*
+ * Hide minimize / maximize / close buttons from the
+ * Firefox titlebar.
+ */
+.titlebar-buttonbox-container,
+.titlebar-buttonbox {
+    display: none !important;
+}
+
+
+/* ========================================================= */
+/*              OPTIONAL: CLEAN TITLEBAR                    */
+/* ========================================================= */
+
+/*
+ * NOTE: The old `#titlebar { appearance: none }` rule is gone.
+ * Firefox no longer has a `#titlebar` element in the toolbox, so the
+ * selector matched nothing.
+ */
+
+
+/* ========================================================= */
+/*              FULLSCREEN SAFETY                           */
+/* ========================================================= */
+
+#main-window[inFullscreen] #navigator-toolbox {
+    z-index: 100 !important;
+}

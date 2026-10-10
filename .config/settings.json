@@ -1,0 +1,111 @@
+{
+    "editor.fontFamily": "JetBrains Mono",
+    "editor.fontLigatures": false,
+    "terminal.integrated.fontFamily": "JetBrains Mono",
+    "hexeditor.columnWidth": 16,
+    "hexeditor.showDecodedText": true,
+    "hexeditor.defaultEndianness": "little",
+    "hexeditor.inspectorType": "aside",
+    "workbench.colorTheme": "Gruvbox Material Light",
+    "workbench.colorCustomizations": {
+        "editor.background": "#fcf5e4",
+        "sideBar.background": "#fcf5e4",
+        "activityBar.background": "#fcf5e4",
+        "titleBar.activeBackground": "#fcf5e4",
+        "titleBar.inactiveBackground": "#fcf5e4",
+        "statusBar.background": "#fcf5e4",
+        "statusBar.noFolderBackground": "#fcf5e4",
+        "panel.background": "#fcf5e4",
+        "terminal.background": "#fcf5e4",
+        "tab.activeBackground": "#fcf5e4",
+        "tab.inactiveBackground": "#fcf5e4",
+        "editorGroupHeader.tabsBackground": "#fcf5e4",
+        "menu.background": "#fcf5e4",
+        "dropdown.background": "#fcf5e4",
+        "input.background": "#fcf5e4",
+        "breadcrumb.background": "#fcf5e4",
+        "quickInput.background": "#fcf5e4",
+        "dropdown.listBackground": "#fcf5e4"
+    },
+    "editor.semanticHighlighting.enabled": true,
+    "editor.semanticTokenColorCustomizations": {
+    "enabled": true,
+    "rules": {
+        "variable": {
+        "foreground": "#458588",
+        "fontStyle": "bold"
+        },
+        "parameter": {
+        "foreground": "#689d6a",
+        "fontStyle": "bold"
+        },
+        "property": {
+        "foreground": "#7c6f64",
+        "fontStyle": "bold" 
+        },
+        "function": {
+        "foreground": "#cc241d",
+        "fontStyle": "" 
+        },
+        "macro": {
+        "foreground": "#d65d0e",
+        "fontStyle": ""
+        }
+    }
+    },
+    "editor.tokenColorCustomizations": {
+    "textMateRules": [
+        {
+        "scope": [
+            "variable",
+            "variable.other",
+            "variable.other.readwrite"
+        ],
+        "settings": {
+            "foreground": "#458588",
+            "fontStyle": "bold"
+        }
+        },
+        {
+        "scope": "variable.parameter",
+        "settings": {
+            "foreground": "#689d6a",
+            "fontStyle": "bold"
+        }
+        },
+        {
+        "scope": [
+            "variable.other.member",
+            "variable.other.property",
+            "meta.field.declaration"
+        ],
+        "settings": {
+            "foreground": "#7c6f64",
+            "fontStyle": "bold"
+        }
+        },
+        {
+        "scope": [
+            "entity.name.function",
+            "support.function"
+        ],
+        "settings": {
+            "foreground": "#cc241d",
+            "fontStyle": ""
+        }
+        },
+        {
+        "scope": [
+            "entity.name.function.preprocessor",
+            "entity.name.constant.preprocessor",
+            "meta.preprocessor.macro"
+        ],
+        "settings": {
+            "foreground": "#d65d0e",
+            "fontStyle": ""
+        }
+        }
+    ]
+    },
+    "chat.viewSessions.orientation": "stacked"
+}

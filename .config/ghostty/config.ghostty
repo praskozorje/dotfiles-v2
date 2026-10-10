@@ -1,0 +1,5 @@
+theme = Gruvbox Material Light
+background = #fcf5e4
+
+font-family = JetBrainsMonoNL Nerd Font
+mouse-scroll-multiplier = discrete:1,precision:1
