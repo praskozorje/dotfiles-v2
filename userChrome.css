@@ -312,3 +312,22 @@
 #main-window[inFullscreen] #navigator-toolbox {
     z-index: 100 !important;
 }
+
+
+/* ========================================================= */
+/*               PERMISSION / NOTIFICATION POPUPS            */
+/* ========================================================= */
+
+/*
+ * Firefox permission dialogs are XUL panels, not URL-bar
+ * suggestion popovers.
+ *
+ * With the navigation toolbar at the bottom, Firefox on
+ * Linux may position these panels outside the screen.
+ *
+ * Apply a negative vertical offset to bring them back
+ * into the visible browser area.
+ */
+#notification-popup {
+margin-top: -220px !important;
+}
